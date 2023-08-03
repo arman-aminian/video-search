@@ -4,6 +4,7 @@ import torch
 import random
 import string
 import subprocess
+import time
 from transformers import TrainingArguments, AutoTokenizer, CLIPFeatureExtractor
 from transformers import CLIPVisionModel, AutoModel
 from sklearn.model_selection import train_test_split
@@ -84,6 +85,7 @@ def train_clip(dataset_path,
 
     trainer.train()
 
+    random.seed(time.time())
     random_5digit_string = generate_random_string()
 
     clip.text_model.save_pretrained('clip-farsi-text-' + random_5digit_string)
