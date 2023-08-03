@@ -3,6 +3,7 @@ import yaml
 import torch
 import random
 import string
+import subprocess
 from transformers import TrainingArguments, AutoTokenizer, CLIPFeatureExtractor
 from transformers import CLIPVisionModel, AutoModel
 from sklearn.model_selection import train_test_split
@@ -10,6 +11,7 @@ from src.train.dataset import CLIPDataset
 from src.train.model import get_clip_model
 from src.train.trainer import CLIPTrainer
 from src.train.utils import get_num_processors
+from huggingface_hub import HfApi
 
 
 def generate_random_string(length=5):
@@ -87,6 +89,18 @@ def train_clip(dataset_path,
     clip.text_model.save_pretrained('clip-farsi-text-' + random_5digit_string)
     text_tokenizer.save_pretrained('clip-farsi-text-' + random_5digit_string)
     clip.vision_model.save_pretrained('clip-farsi-vision-' + random_5digit_string)
+
+    subprocess.run(['huggingface-cli', 'login', '--token', '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'],
+                   capture_output=True)
+
+    api = HfApi()
+
+    repo = api.create_repo('clip-farsi-text-' + random_5digit_string)
+    clip.text_model.push_to_hub('clip-farsi-text-' + random_5digit_string)
+    text_tokenizer.push_to_hub('clip-farsi-text-' + random_5digit_string)
+
+    repo = api.create_repo('clip-farsi-vision-' + random_5digit_string)
+    clip.vision_model.push_to_hub('clip-farsi-vision-' + random_5digit_string)
 
 
 if __name__ == '__main__':
