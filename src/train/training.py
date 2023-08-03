@@ -84,9 +84,9 @@ def train_clip(dataset_path,
 
     random_5digit_string = generate_random_string()
 
-    clip.text_model.save_pretrained('clip-farsi-text' + random_5digit_string)
-    text_tokenizer.save_pretrained('clip-farsi-text' + random_5digit_string)
-    clip.vision_model.save_pretrained('clip-farsi-vision' + random_5digit_string)
+    clip.text_model.save_pretrained('clip-farsi-text-' + random_5digit_string)
+    text_tokenizer.save_pretrained('clip-farsi-text-' + random_5digit_string)
+    clip.vision_model.save_pretrained('clip-farsi-vision-' + random_5digit_string)
 
 
 if __name__ == '__main__':
