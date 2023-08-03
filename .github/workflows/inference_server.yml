@@ -1,0 +1,24 @@
+name: Inference_Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login to Docker registry
+        run: echo "${{ secrets.DOCKER_REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_REGISTRY_USERNAME }}" --password-stdin docker.io
+
+      - name: Build and Push Docker image
+        run: |
+          docker build -e TEXT_ENCODER_MODEL="${{ secrets.TEXT_ENCODER_MODEL }}" -t msinap/video_search_inference_server:latest ./inference_server
+          docker push msinap/video_search_inference_server:latest
+
+#      - name: Deploy to HamRavesh
