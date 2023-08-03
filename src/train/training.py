@@ -1,6 +1,8 @@
 import pandas as pd
 import yaml
 import torch
+import random
+import string
 from transformers import TrainingArguments, AutoTokenizer, CLIPFeatureExtractor
 from transformers import CLIPVisionModel, AutoModel
 from sklearn.model_selection import train_test_split
@@ -8,6 +10,12 @@ from src.train.dataset import CLIPDataset
 from src.train.model import get_clip_model
 from src.train.trainer import CLIPTrainer
 from src.train.utils import get_num_processors
+
+
+def generate_random_string(length=5):
+    letters_and_digits = string.ascii_letters + string.digits
+    random_string = ''.join(random.choice(letters_and_digits) for i in range(length))
+    return random_string
 
 
 def train_clip(dataset_path,
@@ -74,9 +82,11 @@ def train_clip(dataset_path,
 
     trainer.train()
 
-    clip.text_model.save_pretrained('clip-farsi-text')
-    text_tokenizer.save_pretrained('clip-farsi-text')
-    clip.vision_model.save_pretrained('clip-farsi-vision')
+    random_5digit_string = generate_random_string()
+
+    clip.text_model.save_pretrained('clip-farsi-text' + random_5digit_string)
+    text_tokenizer.save_pretrained('clip-farsi-text' + random_5digit_string)
+    clip.vision_model.save_pretrained('clip-farsi-vision' + random_5digit_string)
 
 
 if __name__ == '__main__':
@@ -85,4 +95,3 @@ if __name__ == '__main__':
 
     train_params = params['train']
     train_clip(**train_params)
- 
