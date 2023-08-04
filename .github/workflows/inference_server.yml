@@ -27,7 +27,7 @@ jobs:
           npm i g hamctl
 
       - name: Login to HamRavesh
-        run: hamctl login -e m.sina.pakseresht@gmail.com -p "${{ secrets.HAMRAVESH_PASSWORD }}"
+        run: echo -ne '\n' | hamctl login -e m.sina.pakseresht@gmail.com -p "${{ secrets.HAMRAVESH_PASSWORD }}"
 
       - name: Deploy to HamRavesh
         run: hamctl apps set-image inference-server --image docker.io/msinap/video_search_inference_server --tag "${{ github.sha }}"
