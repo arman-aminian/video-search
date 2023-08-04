@@ -18,7 +18,7 @@ jobs:
 
       - name: Build and Push Docker image
         run: |
-          docker build -e TEXT_ENCODER_MODEL="${{ secrets.TEXT_ENCODER_MODEL }}" -t msinap/video_search_inference_server:latest ./inference_server
+          docker build -t msinap/video_search_inference_server:latest ./inference_server
           docker push msinap/video_search_inference_server:latest
 
 #      - name: Deploy to HamRavesh
