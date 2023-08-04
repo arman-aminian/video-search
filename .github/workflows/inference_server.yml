@@ -13,13 +13,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Login to Docker registry
-        run: echo "${{ secrets.DOCKER_REGISTRY_PASSWORD }}" | docker login -u "msinap" --password-stdin docker.io
-
-      - name: Build and Push Docker image
-        run: |
-          docker build -t docker.io/msinap/video_search_inference_server:${{ github.sha }} ./inference_server
-          docker push docker.io/msinap/video_search_inference_server:${{ github.sha }}
+#      - name: Login to Docker registry
+#        run: echo "${{ secrets.DOCKER_REGISTRY_PASSWORD }}" | docker login -u "msinap" --password-stdin docker.io
+#
+#      - name: Build and Push Docker image
+#        run: |
+#          docker build -t docker.io/msinap/video_search_inference_server:${{ github.sha }} ./inference_server
+#          docker push docker.io/msinap/video_search_inference_server:${{ github.sha }}
 
       - name: Install HamRavesh CLI
         run: |
