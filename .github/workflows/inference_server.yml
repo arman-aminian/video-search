@@ -18,7 +18,16 @@ jobs:
 
       - name: Build and Push Docker image
         run: |
-          docker build -t docker.io/msinap/video_search_inference_server:latest ./inference_server
-          docker push docker.io/msinap/video_search_inference_server:latest
+          docker build -t docker.io/msinap/video_search_inference_server:${{ github.sha }} ./inference_server
+          docker push docker.io/msinap/video_search_inference_server:${{ github.sha }}
 
-#      - name: Deploy to HamRavesh
+      - name: Install HamRavesh CLI
+        run: |
+          apt install -y --no-install-recommends nodejs npm
+          npm i g hamctl
+
+      - name: Login to HamRavesh
+        run: hamctl login -u m.sina.pakseresht@gmail.com -p "${{ secrets.HAMRAVESH_PASSWORD }}"
+
+      - name: Deploy to HamRavesh
+        run: hamctl apps set-image inference-server --image docker.io/msinap/video_search_inference_server --tag "${{ github.sha }}"
