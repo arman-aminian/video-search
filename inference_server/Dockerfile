@@ -5,9 +5,7 @@ WORKDIR /app
 COPY . .
 RUN pip install -r requirements.txt
 
-ENV HF_REPO_ID='arman-aminian'
-ENV clip-farsi-text='MODEL_NAME'
-
+ENV TEXT_ENCODER_MODEL='arman-aminian/clip-farsi-text'
 RUN python download_model.py
 
 CMD ["uvicorn", "main:app"]
