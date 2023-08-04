@@ -6,6 +6,5 @@ COPY . .
 RUN pip install -r requirements.txt
 
 ENV TEXT_ENCODER_MODEL='arman-aminian/clip-farsi-text'
-RUN python download_model.py
 
-CMD ["uvicorn", "main:app"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0"]
