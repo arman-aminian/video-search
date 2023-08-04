@@ -13,6 +13,7 @@ from src.train.model import get_clip_model
 from src.train.trainer import CLIPTrainer
 from src.train.utils import get_num_processors
 from huggingface_hub import HfApi
+import mlflow
 
 
 def generate_random_string(length=5):
@@ -103,6 +104,22 @@ def train_clip(dataset_path,
 
     repo = api.create_repo('clip-farsi-vision-' + random_5digit_string)
     clip.vision_model.push_to_hub('clip-farsi-vision-' + random_5digit_string)
+
+    mlflow.set_tracking_uri("https://mlflow-mlsd-video-search.darkube.app/")
+    mlflow.set_experiment("clip-farsi")
+
+    # alpha = 0.65
+    # l1_ratio = 0.95
+
+    with mlflow.start_run():
+        mlflow.set_tag("text_model", 'arman-aminian/clip-farsi-text-' + random_5digit_string)
+        mlflow.set_tag("vision_model", 'arman-aminian/clip-farsi-text-' + random_5digit_string)
+
+        # mlflow.log_param("alpha", alpha)
+        # mlflow.log_param("l1_ratio", l1_ratio)
+        #
+        # mlflow.log_metric("rmse", 0.5)
+        # mlflow.log_metric("mae", 0.75)
 
 
 if __name__ == '__main__':
