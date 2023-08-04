@@ -13,13 +13,14 @@ text_encoder = AutoModel.from_pretrained(os.environ['TEXT_ENCODER_MODEL'])
 text_tokenizer = AutoTokenizer.from_pretrained(os.environ['TEXT_ENCODER_MODEL'])
 
 
-@app.get("/query/{video_name}/")
+@app.get("/{video_name}/")
 def query(video_name: str, search_entry: str):
+    print(f"query for video {video_name}, search_entry: {search_entry}")
 
     # text embedding
     with torch.no_grad():
         tokenized = text_tokenizer(search_entry, return_tensors='pt')
-        text_embedding = text_encoder(tokenized).pooler_output.squeeze().cpu().tolist()
+        text_embedding = text_encoder(**tokenized).pooler_output.squeeze().cpu().tolist()
 
     # query vector DB
     if video_name == "ALL":
