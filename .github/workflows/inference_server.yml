@@ -23,7 +23,7 @@ jobs:
 
       - name: Install HamRavesh CLI
         run: |
-          apt install -y --no-install-recommends nodejs npm
+          sudo apt install -y --no-install-recommends nodejs npm
           npm i g hamctl
 
       - name: Login to HamRavesh
