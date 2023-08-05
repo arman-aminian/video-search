@@ -77,7 +77,7 @@ if __name__ == "__main__":
     print("inserting")
     client = QdrantClient("https://qdrant-mlsd-video-search.darkube.app", port=443)
     client.upload_records(
-        collection_name="testi1",
+        collection_name="video_frames",
         records=insert_data,
         batch_size=1,
     )
