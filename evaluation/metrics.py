@@ -50,7 +50,11 @@ def accuracy_at_k(k, cosine_matrix):
     return is_in_top_k_count / cosine_matrix.shape[0]
 
 
-def calc_accuracy_at(text_model_name, image_model_name, k_start=1, k_end=50):
+def calc_accuracy_at(text_model_name, image_model_name, k_list=None):
+
+    if k_list is None:
+        k_list = list(range(1, 51))
+
     # load models
     text_tokenizer = AutoTokenizer.from_pretrained(text_model_name)
     text_encoder = AutoModel.from_pretrained(text_model_name).to(device='cuda:0')
@@ -76,6 +80,6 @@ def calc_accuracy_at(text_model_name, image_model_name, k_start=1, k_end=50):
 
     # accuracy
     accuracy_at = {}
-    for k in range(k_start, k_end+1):
+    for k in k_list:
         accuracy_at[k] = accuracy_at_k(k, cosine_matrix)
     return accuracy_at
