@@ -76,6 +76,6 @@ def calc_accuracy_at(text_model_name, image_model_name, k_start=1, k_end=50):
 
     # accuracy
     accuracy_at = {}
-    for k in range(1, k_end+1):
+    for k in range(k_start, k_end+1):
         accuracy_at[k] = accuracy_at_k(k, cosine_matrix)
     return accuracy_at
