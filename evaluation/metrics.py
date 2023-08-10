@@ -29,3 +29,10 @@ def calc_embedding_for_image(image_encoder, image_path):
     return embedding.squeeze().cpu().tolist()
 
 
+def calc_embedding_for_text(text_tokenizer, text_encoder, text):
+    with torch.no_grad():
+        tokenized = text_tokenizer(text, return_tensors='pt')
+        embedding = text_encoder(**to_device(tokenized)).pooler_output
+    return embedding.squeeze().cpu().tolist()
+
+
