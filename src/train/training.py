@@ -118,8 +118,8 @@ def train_clip(dataset_path,
     accuracy_at_list = calc_accuracy_at(test_df, 'image', 'caption', text_model_name, image_model_name, k_list)
 
     with mlflow.start_run():
-        mlflow.set_tag("text_model", 'arman-aminian/clip-farsi-text-' + random_5digit_string)
-        mlflow.set_tag("vision_model", 'arman-aminian/clip-farsi-text-' + random_5digit_string)
+        mlflow.set_tag("text_model", text_model_name)
+        mlflow.set_tag("vision_model", image_model_name)
 
         mlflow.log_param("max_len", max_len)
         mlflow.log_param("learning_rate", lr)
