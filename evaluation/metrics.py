@@ -36,3 +36,16 @@ def calc_embedding_for_text(text_tokenizer, text_encoder, text):
     return embedding.squeeze().cpu().tolist()
 
 
+def is_index_in_top_k(k, i, array):
+    arg_sorted = array.argsort()
+    return True if i in arg_sorted[-k:] else False
+
+
+def accuracy_at_k(k, cosine_matrix):
+    is_in_top_k_count = 0
+    for i in range(cosine_matrix.shape[0]):
+        if is_index_in_top_k(k, i, cosine_matrix[i, :]):
+            is_in_top_k_count += 1
+    return is_in_top_k_count / cosine_matrix.shape[0]
+
+
