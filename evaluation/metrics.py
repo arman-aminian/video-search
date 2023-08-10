@@ -4,6 +4,7 @@ import torchvision.transforms as transforms
 from PIL import Image
 from tqdm import tqdm
 import torch
+import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
 
@@ -49,7 +50,7 @@ def accuracy_at_k(k, cosine_matrix):
     return is_in_top_k_count / cosine_matrix.shape[0]
 
 
-def calc_accuracy_at(text_model_name, image_model_name):
+def calc_accuracy_at(text_model_name, image_model_name, k_start=1, k_end=50):
     # load models
     text_tokenizer = AutoTokenizer.from_pretrained(text_model_name)
     text_encoder = AutoModel.from_pretrained(text_model_name).to(device='cuda:0')
@@ -75,6 +76,6 @@ def calc_accuracy_at(text_model_name, image_model_name):
 
     # accuracy
     accuracy_at = {}
-    for k in range(1, 51):
+    for k in range(1, k_end+1):
         accuracy_at[k] = accuracy_at_k(k, cosine_matrix)
     return accuracy_at
