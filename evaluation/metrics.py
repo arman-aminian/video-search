@@ -50,7 +50,7 @@ def accuracy_at_k(k, cosine_matrix):
     return is_in_top_k_count / cosine_matrix.shape[0]
 
 
-def calc_accuracy_at(text_model_name, image_model_name, k_list=None):
+def calc_accuracy_at(df, image_column_name, caption_column_name, text_model_name, image_model_name, k_list=None):
 
     if k_list is None:
         k_list = list(range(1, 51))
@@ -60,20 +60,16 @@ def calc_accuracy_at(text_model_name, image_model_name, k_list=None):
     text_encoder = AutoModel.from_pretrained(text_model_name).to(device='cuda:0')
     image_encoder = CLIPVisionModel.from_pretrained(image_model_name).to(device='cuda:0')
 
-    # read and sample data
-    df = pd.read_csv('/content/drive/MyDrive/University/MLOps/MLOps-Project/Phase-3/flickr30k_translated.csv')
-    sampled_df = df.sample(n=10000)
-
     # text
     text_embeddings = []
-    for i, row in tqdm(sampled_df.iterrows()):
-        text_embeddings.append(calc_embedding_for_text(text_tokenizer, text_encoder, row['translation']))
+    for i, row in tqdm(df.iterrows()):
+        text_embeddings.append(calc_embedding_for_text(text_tokenizer, text_encoder, row[caption_column_name]))
 
     # image
     image_embeddings = []
-    for i, row in tqdm(sampled_df.iterrows()):
+    for i, row in tqdm(df.iterrows()):
         image_embeddings.append(
-            calc_embedding_for_image(image_encoder, f'/content/flickr30k_images/flickr30k_images/{row["image_name"]}'))
+            calc_embedding_for_image(image_encoder, row[image_column_name]))
 
     # cosine similarity
     cosine_matrix = cosine_similarity(text_embeddings, image_embeddings)

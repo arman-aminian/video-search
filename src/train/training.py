@@ -115,7 +115,7 @@ def train_clip(dataset_path,
     mlflow.set_experiment("clip-farsi")
 
     k_list = [3, 5, 10]
-    accuracy_at_list = calc_accuracy_at(text_model_name, image_model_name, k_list)
+    accuracy_at_list = calc_accuracy_at(test_df, 'image', 'caption', text_model_name, image_model_name, k_list)
 
     with mlflow.start_run():
         mlflow.set_tag("text_model", 'arman-aminian/clip-farsi-text-' + random_5digit_string)
