@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 import yaml
 import torch
 import random
@@ -117,6 +118,12 @@ def train_clip(dataset_path,
     k_list = [3, 5, 10]
     accuracy_at_list = calc_accuracy_at(test_df, 'image', 'caption', text_model_name, image_model_name, k_list)
 
+    fig, ax = plt.subplots()
+    ax.plot(list(accuracy_at_list.keys()), list(accuracy_at_list.values()), marker='o')
+    ax.set_xlabel('K')
+    ax.set_ylabel('Accuracy')
+    ax.set_title('Accuracy at K')
+
     with mlflow.start_run():
         mlflow.set_tag("text_model", text_model_name)
         mlflow.set_tag("vision_model", image_model_name)
@@ -127,6 +134,8 @@ def train_clip(dataset_path,
 
         for k in k_list:
             mlflow.log_metric('acc_at_'+str(k), accuracy_at_list[k])
+
+        mlflow.log_figure(fig, 'acc_at_k.png')
 
 
 if __name__ == '__main__':
