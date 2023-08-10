@@ -49,3 +49,32 @@ def accuracy_at_k(k, cosine_matrix):
     return is_in_top_k_count / cosine_matrix.shape[0]
 
 
+def calc_accuracy_at(text_model_name, image_model_name):
+    # load models
+    text_tokenizer = AutoTokenizer.from_pretrained(text_model_name)
+    text_encoder = AutoModel.from_pretrained(text_model_name).to(device='cuda:0')
+    image_encoder = CLIPVisionModel.from_pretrained(image_model_name).to(device='cuda:0')
+
+    # read and sample data
+    df = pd.read_csv('/content/drive/MyDrive/University/MLOps/MLOps-Project/Phase-3/flickr30k_translated.csv')
+    sampled_df = df.sample(n=10000)
+
+    # text
+    text_embeddings = []
+    for i, row in tqdm(sampled_df.iterrows()):
+        text_embeddings.append(calc_embedding_for_text(text_tokenizer, text_encoder, row['translation']))
+
+    # image
+    image_embeddings = []
+    for i, row in tqdm(sampled_df.iterrows()):
+        image_embeddings.append(
+            calc_embedding_for_image(image_encoder, f'/content/flickr30k_images/flickr30k_images/{row["image_name"]}'))
+
+    # cosine similarity
+    cosine_matrix = cosine_similarity(text_embeddings, image_embeddings)
+
+    # accuracy
+    accuracy_at = {}
+    for k in range(1, 51):
+        accuracy_at[k] = accuracy_at_k(k, cosine_matrix)
+    return accuracy_at
