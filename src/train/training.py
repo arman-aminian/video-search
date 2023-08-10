@@ -36,14 +36,16 @@ def train_clip(dataset_path,
     std = torch.tensor([0.229, 0.224, 0.225])
 
     text_tokenizer = AutoTokenizer.from_pretrained(text_model)
+    lr = 3e-5
+    weight_decay = 0.003
     args = TrainingArguments(
         "image-fa-search",
         evaluation_strategy="steps",
         save_strategy="steps",
         eval_steps=100,
         logging_steps=10,
-        learning_rate=3e-5,
-        weight_decay=0.003,
+        learning_rate=lr,
+        weight_decay=weight_decay,
         warmup_steps=100,
         fp16=False,
         prediction_loss_only=True,
@@ -112,18 +114,19 @@ def train_clip(dataset_path,
     mlflow.set_tracking_uri("https://mlflow-mlsd-video-search.darkube.app/")
     mlflow.set_experiment("clip-farsi")
 
-    # alpha = 0.65
-    # l1_ratio = 0.95
+    k_list = [3, 5, 10]
+    accuracy_at_list = calc_accuracy_at(text_model_name, image_model_name, k_list)
 
     with mlflow.start_run():
         mlflow.set_tag("text_model", 'arman-aminian/clip-farsi-text-' + random_5digit_string)
         mlflow.set_tag("vision_model", 'arman-aminian/clip-farsi-text-' + random_5digit_string)
 
-        # mlflow.log_param("alpha", alpha)
-        # mlflow.log_param("l1_ratio", l1_ratio)
-        #
-        # mlflow.log_metric("rmse", 0.5)
-        # mlflow.log_metric("mae", 0.75)
+        mlflow.log_param("max_len", max_len)
+        mlflow.log_param("learning_rate", lr)
+        mlflow.log_param("weight_decay", weight_decay)
+
+        for k in k_list:
+            mlflow.log_metric('acc_at_'+str(k), accuracy_at_list[k])
 
 
 if __name__ == '__main__':
