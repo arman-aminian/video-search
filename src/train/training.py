@@ -12,6 +12,7 @@ from src.train.dataset import CLIPDataset
 from src.train.model import get_clip_model
 from src.train.trainer import CLIPTrainer
 from src.train.utils import get_num_processors
+from evaluation.metrics import calc_accuracy_at
 from huggingface_hub import HfApi
 import mlflow
 
@@ -89,21 +90,24 @@ def train_clip(dataset_path,
     random.seed(time.time())
     random_5digit_string = generate_random_string()
 
-    clip.text_model.save_pretrained('clip-farsi-text-' + random_5digit_string)
-    text_tokenizer.save_pretrained('clip-farsi-text-' + random_5digit_string)
-    clip.vision_model.save_pretrained('clip-farsi-vision-' + random_5digit_string)
+    text_model_name = 'clip-farsi-text-' + random_5digit_string
+    image_model_name = 'clip-farsi-vision-' + random_5digit_string
+
+    clip.text_model.save_pretrained(text_model_name)
+    text_tokenizer.save_pretrained(text_model_name)
+    clip.vision_model.save_pretrained(image_model_name)
 
     subprocess.run(['huggingface-cli', 'login', '--token', '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'],
                    capture_output=True)
 
     api = HfApi()
 
-    repo = api.create_repo('clip-farsi-text-' + random_5digit_string)
-    clip.text_model.push_to_hub('clip-farsi-text-' + random_5digit_string)
-    text_tokenizer.push_to_hub('clip-farsi-text-' + random_5digit_string)
+    repo = api.create_repo(text_model_name)
+    clip.text_model.push_to_hub(text_model_name)
+    text_tokenizer.push_to_hub(text_model_name)
 
-    repo = api.create_repo('clip-farsi-vision-' + random_5digit_string)
-    clip.vision_model.push_to_hub('clip-farsi-vision-' + random_5digit_string)
+    repo = api.create_repo(image_model_name)
+    clip.vision_model.push_to_hub(image_model_name)
 
     mlflow.set_tracking_uri("https://mlflow-mlsd-video-search.darkube.app/")
     mlflow.set_experiment("clip-farsi")
