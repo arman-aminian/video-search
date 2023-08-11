@@ -42,7 +42,7 @@ async def query(
     # text embedding
     if language == "english":
         encoded_text = clip.tokenize([search_entry])
-        embedding = english_clip_model.encode_text(encoded_text).squeeze().tolist()
+        text_embedding = english_clip_model.encode_text(encoded_text).squeeze().tolist()
     else:
         with torch.no_grad():
             tokenized = farsi_text_tokenizer(search_entry, return_tensors='pt')
