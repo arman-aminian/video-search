@@ -4,19 +4,16 @@ import torch
 from fastapi import FastAPI, Path, Query
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import Filter, FieldCondition, MatchValue
-from transformers import AutoModel, AutoTokenizer, CLIPTextModel, CLIPTokenizer
+from transformers import AutoModel, AutoTokenizer
 from fastapi.openapi.utils import get_openapi
 from fastapi.responses import JSONResponse
+from mlflow.tracking import MlflowClient
+from mlflow.entities import ViewType
 
 
 client = QdrantClient("https://qdrant-mlsd-video-search.darkube.app", port=443)
 
 app = FastAPI()
-
-# load models
-farsi_text_encoder = AutoModel.from_pretrained(os.environ['TEXT_ENCODER_MODEL_FARSI'])
-farsi_text_tokenizer = AutoTokenizer.from_pretrained(os.environ['TEXT_ENCODER_MODEL_FARSI'])
-english_clip_model, _ = clip.load("ViT-B/32")
 
 
 @app.get("/{video_name}/")
@@ -93,4 +90,28 @@ async def get_open_api_endpoint():
 @app.get("/docs", include_in_schema=False)
 async def get_documentation():
     return JSONResponse(content=app.openapi())
+
+
+def get_best_model_from_mlflow():
+    client = MlflowClient(tracking_uri="https://mlflow-mlsd-video-search.darkube.app/")
+    experiments = client.search_experiments()
+    exp_id = list(filter(lambda e: e.name == 'clip-farsi', experiments))[0].experiment_id
+    runs = client.search_runs(
+        experiment_ids=exp_id,
+        filter_string="metrics.acc_at_10 >0.2",
+        run_view_type=ViewType.ACTIVE_ONLY,
+        max_results=5,
+        order_by=["metrics.acc_at_10 DESC"]
+    )
+    return runs[0].data.tags['text_model']
+
+
+# load models
+print("start loading models...")
+best_farsi_model_name = get_best_model_from_mlflow()
+print(f"best farsi model name: {best_farsi_model_name}")
+farsi_text_encoder = AutoModel.from_pretrained(best_farsi_model_name)
+farsi_text_tokenizer = AutoTokenizer.from_pretrained(best_farsi_model_name)
+english_clip_model, _ = clip.load("/app/clip_english/ViT-B-32.pt")
+print("loading models finished.")
 

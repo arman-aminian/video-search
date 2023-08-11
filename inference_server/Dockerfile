@@ -11,11 +11,11 @@ RUN apt-get update \
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-COPY . .
-
-ENV TEXT_ENCODER_MODEL_FARSI='arman-aminian/clip-farsi-text'
-ENV TEXT_ENCODER_MODEL_ENGLISH='openai/clip-vit-base-patch32'
-
 ENV TRANSFORMERS_CACHE=/app/.cache
+
+COPY download_english_model.py download_english_model.py
+RUN python download_english_model.py
+
+COPY main.py main.py
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0"]
