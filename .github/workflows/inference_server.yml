@@ -18,8 +18,8 @@ jobs:
 
       - name: Build and Push Docker image
         run: |
-          docker build -t quay.io/msinap/video_search_inference_server:${{ github.sha }} ./inference_server
-          docker push quay.io/msinap/video_search_inference_server:${{ github.sha }}
+          docker build -t quay.io/sinapakseresht/video_search_inference_server:${{ github.sha }} ./inference_server
+          docker push quay.io/sinapakseresht/video_search_inference_server:${{ github.sha }}
 
       - name: Install HamRavesh CLI
         run: |
@@ -30,4 +30,4 @@ jobs:
         run: echo -ne '\n' | hamctl login -e m.sina.pakseresht@gmail.com -p "${{ secrets.HAMRAVESH_PASSWORD }}"
 
 #      - name: Deploy to HamRavesh
-#        run: hamctl apps set-image inference-server --image quay.io/msinap/video_search_inference_server --tag "${{ github.sha }}"
+#        run: hamctl apps set-image inference-server --image quay.io/sinapakseresht/video_search_inference_server --tag "${{ github.sha }}"
