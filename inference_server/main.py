@@ -3,7 +3,7 @@ import torch
 from fastapi import FastAPI, Path, Query
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import Filter, FieldCondition, MatchValue
-from transformers import AutoModel, AutoTokenizer
+from transformers import AutoModel, AutoTokenizer, CLIPTextModel, CLIPTokenizer
 from fastapi.openapi.utils import get_openapi
 from fastapi.responses import JSONResponse
 
@@ -14,11 +14,11 @@ app = FastAPI()
 
 text_encoders = {
     "farsi": AutoModel.from_pretrained(os.environ['TEXT_ENCODER_MODEL_FARSI']),
-    "english": AutoModel.from_pretrained(os.environ['TEXT_ENCODER_MODEL_ENGLISH']),
+    "english": CLIPTextModel.from_pretrained(os.environ['TEXT_ENCODER_MODEL_ENGLISH']),
 }
 text_tokenizers = {
     "farsi": AutoTokenizer.from_pretrained(os.environ['TEXT_ENCODER_MODEL_FARSI']),
-    "english": AutoTokenizer.from_pretrained(os.environ['TEXT_ENCODER_MODEL_ENGLISH']),
+    "english": CLIPTokenizer.from_pretrained(os.environ['TEXT_ENCODER_MODEL_ENGLISH']),
 }
 
 
@@ -44,7 +44,7 @@ async def query(
             - **image_base64** (str): The base64-encoded image of the matched frame.
     """
 
-    print(f"{language} query for video {video_name}, search entry: {search_entry}.")
+    print(f"{language} query for video {video_name}, search entry: {search_entry}")
 
     # text embedding
     with torch.no_grad():
