@@ -14,12 +14,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Login to Docker registry
-        run: echo "${{ secrets.DOCKER_REGISTRY_PASSWORD }}" | docker login -u "msinap" --password-stdin docker.io
+        run: echo "${{ secrets.QUAY_DOCKER_REGISTRY_PASSWORD }}" | docker login -u "sinapakseresht" --password-stdin quay.io
 
       - name: Build and Push Docker image
         run: |
-          docker build -t docker.io/msinap/video_search_inference_server:${{ github.sha }} ./inference_server
-          docker push docker.io/msinap/video_search_inference_server:${{ github.sha }}
+          docker build -t quay.io/msinap/video_search_inference_server:${{ github.sha }} ./inference_server
+          docker push quay.io/msinap/video_search_inference_server:${{ github.sha }}
 
       - name: Install HamRavesh CLI
         run: |
@@ -30,4 +30,4 @@ jobs:
         run: echo -ne '\n' | hamctl login -e m.sina.pakseresht@gmail.com -p "${{ secrets.HAMRAVESH_PASSWORD }}"
 
 #      - name: Deploy to HamRavesh
-#        run: hamctl apps set-image inference-server --image docker.io/msinap/video_search_inference_server --tag "${{ github.sha }}"
+#        run: hamctl apps set-image inference-server --image quay.io/msinap/video_search_inference_server --tag "${{ github.sha }}"
