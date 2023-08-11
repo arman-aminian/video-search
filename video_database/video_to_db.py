@@ -9,6 +9,8 @@ from transformers import CLIPVisionModel
 import torchvision.transforms as transforms
 from qdrant_client import QdrantClient
 from qdrant_client.models import Record
+from mlflow.tracking import MlflowClient
+from mlflow.entities import ViewType
 
 
 def image_to_string(image):
@@ -25,7 +27,20 @@ if __name__ == "__main__":
     fps = int(video.get(cv2.CAP_PROP_FPS))
     frame_interval = fps * 5  # capture a frame every 5 seconds
 
-    image_encoder = CLIPVisionModel.from_pretrained('arman-aminian/clip-farsi-vision').eval()
+    MLFLOW_TRACKING_URI = "https://mlflow-mlsd-video-search.darkube.app/"
+    client = MlflowClient(tracking_uri=MLFLOW_TRACKING_URI)
+    experiments = client.search_experiments()
+    exp_id = list(filter(lambda e: e.name == 'clip-farsi', experiments))[0].experiment_id
+    runs = client.search_runs(
+        experiment_ids=exp_id,
+        filter_string="metrics.acc_at_10 >0.2",
+        run_view_type=ViewType.ACTIVE_ONLY,
+        max_results=5,
+        order_by=["metrics.acc_at_10 DESC"]
+    )
+    VISION_ENCODER_MODEL = runs[0].data.tags['vision_model']
+
+    image_encoder = CLIPVisionModel.from_pretrained(VISION_ENCODER_MODEL).eval()
 
     insert_data = []
     currentframe = 0
