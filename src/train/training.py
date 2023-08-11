@@ -13,7 +13,7 @@ from src.train.dataset import CLIPDataset
 from src.train.model import get_clip_model
 from src.train.trainer import CLIPTrainer
 from src.train.utils import get_num_processors
-from evaluation.metrics import calc_accuracy_at
+from src.evaluation.metrics import calc_accuracy_at
 from huggingface_hub import HfApi
 import mlflow
 
