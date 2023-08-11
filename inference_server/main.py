@@ -6,11 +6,24 @@ from qdrant_client.http.models import Filter, FieldCondition, MatchValue
 from transformers import AutoModel, AutoTokenizer
 from fastapi.openapi.utils import get_openapi
 from fastapi.responses import JSONResponse
+from mlflow.tracking import MlflowClient
+from mlflow.entities import ViewType
 
 
 client = QdrantClient("https://qdrant-mlsd-video-search.darkube.app", port=443)
 
 app = FastAPI()
+
+MLFLOW_TRACKING_URI = "https://mlflow-mlsd-video-search.darkube.app/"
+client = MlflowClient(tracking_uri=MLFLOW_TRACKING_URI)
+runs = client.search_runs(
+    experiment_ids='2',
+    filter_string="metrics.acc_at_10 >0.2",
+    run_view_type=ViewType.ACTIVE_ONLY,
+    max_results=5,
+    order_by=["metrics.acc_at_10 DESC"]
+)
+TEXT_ENCODER_MODEL = runs[0].data.tags['text_model']
 
 text_encoder = AutoModel.from_pretrained(os.environ['TEXT_ENCODER_MODEL'])
 text_tokenizer = AutoTokenizer.from_pretrained(os.environ['TEXT_ENCODER_MODEL'])
