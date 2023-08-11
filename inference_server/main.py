@@ -55,6 +55,8 @@ async def query(
             tokenized = farsi_text_tokenizer(search_entry, return_tensors='pt')
             text_embedding = farsi_text_encoder(**tokenized).pooler_output.squeeze().cpu().tolist()
 
+    print("Calculated the embedding. Going to query the vector database...")
+
     # query vector DB
     if video_name == "ALL":
         results = client.search(
@@ -76,6 +78,8 @@ async def query(
                 ]
             ),
         )
+
+    print("Got results from vector database.")
 
     # change result format to simpler json
     return [

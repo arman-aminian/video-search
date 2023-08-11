@@ -18,8 +18,7 @@ jobs:
 
       - name: Build and Push Docker image
         run: |
-          docker pull quay.io/sinapakseresht/video_search_inference_server:a510ac0ce2e41444fa7be3d4411d8218038f9770
-          docker build -t quay.io/sinapakseresht/video_search_inference_server:${{ github.sha }} --cache-from quay.io/sinapakseresht/video_search_inference_server:a510ac0ce2e41444fa7be3d4411d8218038f9770 ./inference_server
+          docker build -t quay.io/sinapakseresht/video_search_inference_server:${{ github.sha }} ./inference_server
           docker push quay.io/sinapakseresht/video_search_inference_server:${{ github.sha }}
 
       - name: Install HamRavesh CLI
