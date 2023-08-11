@@ -9,15 +9,16 @@ from fastapi.responses import JSONResponse
 from mlflow.tracking import MlflowClient
 from mlflow.entities import ViewType
 
-
 client = QdrantClient("https://qdrant-mlsd-video-search.darkube.app", port=443)
 
 app = FastAPI()
 
 MLFLOW_TRACKING_URI = "https://mlflow-mlsd-video-search.darkube.app/"
 client = MlflowClient(tracking_uri=MLFLOW_TRACKING_URI)
+experiments = client.search_experiments()
+exp_id = list(filter(lambda e: e.name == 'clip-farsi', experiments))[0].experiment_id
 runs = client.search_runs(
-    experiment_ids='2',
+    experiment_ids=exp_id,
     filter_string="metrics.acc_at_10 >0.2",
     run_view_type=ViewType.ACTIVE_ONLY,
     max_results=5,
@@ -31,8 +32,9 @@ text_tokenizer = AutoTokenizer.from_pretrained(os.environ['TEXT_ENCODER_MODEL'])
 
 @app.get("/{video_name}/")
 async def query(
-    video_name: str = Path(..., title="Video Name", description="Name of the video or 'ALL' to search in all videos"),
-    search_entry: str = Query(..., title="Search Entry", description="The search entry for text embedding"),
+        video_name: str = Path(..., title="Video Name",
+                               description="Name of the video or 'ALL' to search in all videos"),
+        search_entry: str = Query(..., title="Search Entry", description="The search entry for text embedding"),
 ):
     """
         Query for video frames based on the provided text search entry.
@@ -98,4 +100,3 @@ async def get_open_api_endpoint():
 @app.get("/docs", include_in_schema=False)
 async def get_documentation():
     return JSONResponse(content=app.openapi())
-
