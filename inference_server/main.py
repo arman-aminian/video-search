@@ -26,8 +26,8 @@ runs = client.search_runs(
 )
 TEXT_ENCODER_MODEL = runs[0].data.tags['text_model']
 
-text_encoder = AutoModel.from_pretrained(os.environ['TEXT_ENCODER_MODEL'])
-text_tokenizer = AutoTokenizer.from_pretrained(os.environ['TEXT_ENCODER_MODEL'])
+text_encoder = AutoModel.from_pretrained(TEXT_ENCODER_MODEL)
+text_tokenizer = AutoTokenizer.from_pretrained(TEXT_ENCODER_MODEL)
 
 
 @app.get("/{video_name}/")
