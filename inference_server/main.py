@@ -1,4 +1,3 @@
-import os
 import clip
 import torch
 from fastapi import FastAPI, Path, Query
@@ -9,11 +8,19 @@ from fastapi.openapi.utils import get_openapi
 from fastapi.responses import JSONResponse
 from mlflow.tracking import MlflowClient
 from mlflow.entities import ViewType
+from fastapi.middleware.cors import CORSMiddleware
 
 
 client = QdrantClient("https://qdrant-mlsd-video-search.darkube.app", port=443)
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/{video_name}/")
