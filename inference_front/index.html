@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Scene Search</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <h1>Video Scene Search</h1>
+
+    <div class="container">
+        <div class="search-section">
+            <select id="videoSelector">
+                <option value="ALL">All Movies</option>
+                <!-- More movie options can be added here -->
+                <option value="ExampleMovieName">Example Movie Name</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="Enter your search term...">
+            <button onclick="performSearch()">Search</button>
+        </div>
+
+        <div class="results" id="results"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
