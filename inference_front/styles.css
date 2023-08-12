@@ -1,0 +1,92 @@
+body {
+    font-family: 'Playfair Display', serif;
+    background-color: #8cfff7;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    margin-top: 2%;
+    font-size: 3em;
+    color: #333;
+}
+
+.container {
+    background-color: #00857c;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    width: 60%;
+    margin-top: 2%;
+}
+
+.search-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-section select,
+.search-section input[type="text"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    border: 2px solid #d1d1d1;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.search-section button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.search-section button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.search-section button:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+}
+
+.results {
+    margin-top: 2rem;
+}
+
+.result-item {
+    background-color: #e1fffd; /* Cream color for each card */
+    border: 2px solid #d1d1d1;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.result-item img {
+    width: auto;  /* Adjust to display the original image size */
+    height: auto;  /* Adjust to display the original image size */
+    margin-bottom: 1rem;
+}
+
+.result-item h3 {
+    margin: 0;
+    color: #333;
+}
+
+.result-item span {
+    color: #666;
+    font-size: 0.9rem;
+}
