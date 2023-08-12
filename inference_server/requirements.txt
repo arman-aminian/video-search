@@ -6,3 +6,4 @@ transformers
 qdrant_client
 git+https://github.com/openai/CLIP.git
 mlflow
+prometheus-fastapi-instrumentator

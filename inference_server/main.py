@@ -10,6 +10,7 @@ from fastapi.responses import JSONResponse
 from mlflow.tracking import MlflowClient
 from mlflow.entities import ViewType
 from fastapi.middleware.cors import CORSMiddleware
+from prometheus_fastapi_instrumentator import Instrumentator
 
 
 client = QdrantClient("https://qdrant-mlsd-video-search.darkube.app", port=443)
@@ -22,6 +23,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+Instrumentator().instrument(app).expose(app)
 
 
 @app.get("/{video_name}/")
