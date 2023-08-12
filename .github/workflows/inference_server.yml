@@ -29,5 +29,5 @@ jobs:
       - name: Login to HamRavesh
         run: echo -ne '\n' | hamctl login -e m.sina.pakseresht@gmail.com -p "${{ secrets.HAMRAVESH_PASSWORD }}"
 
-#      - name: Deploy to HamRavesh
-#        run: hamctl apps set-image inference-server --image quay.io/sinapakseresht/video_search_inference_server --tag "${{ github.sha }}"
+      - name: Deploy to HamRavesh
+        run: hamctl apps set-image inference-server --image quay.io/sinapakseresht/video_search_inference_server --tag "${{ github.sha }}"

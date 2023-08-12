@@ -1,5 +1,6 @@
 import clip
 import torch
+from datetime import datetime
 from fastapi import FastAPI, Path, Query
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import Filter, FieldCondition, MatchValue
@@ -44,7 +45,7 @@ async def query(
     """
 
     language = "english" if search_entry.isascii() else "farsi"
-    print(f"{language} query for video {video_name}, search entry: {search_entry}")
+    print(f"{datetime.now().isoformat()} - {language} query for video {video_name}, search entry: {search_entry}")
 
     # text embedding
     if language == "english":
@@ -55,7 +56,7 @@ async def query(
             tokenized = farsi_text_tokenizer(search_entry, return_tensors='pt')
             text_embedding = farsi_text_encoder(**tokenized).pooler_output.squeeze().cpu().tolist()
 
-    print("Calculated the embedding. Going to query the vector database...")
+    print(f"{datetime.now().isoformat()} - Calculated the embedding. Going to query the vector database...")
 
     # query vector DB
     if video_name == "ALL":
@@ -79,7 +80,7 @@ async def query(
             ),
         )
 
-    print("Got results from vector database.")
+    print(f"{datetime.now().isoformat()} - Got results from vector database.")
 
     # change result format to simpler json
     return [
