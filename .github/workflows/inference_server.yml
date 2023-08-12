@@ -21,13 +21,13 @@ jobs:
           docker build -t quay.io/sinapakseresht/video_search_inference_server:${{ github.sha }} ./inference_server
           docker push quay.io/sinapakseresht/video_search_inference_server:${{ github.sha }}
 
-      - name: Install HamRavesh CLI
-        run: |
-          sudo apt install -y --no-install-recommends nodejs npm
-          npm i g hamctl
-
-      - name: Login to HamRavesh
-        run: echo -ne '\n' | hamctl login -e m.sina.pakseresht@gmail.com -p "${{ secrets.HAMRAVESH_PASSWORD }}"
-
-      - name: Deploy to HamRavesh
-        run: hamctl apps set-image inference-server --image quay.io/sinapakseresht/video_search_inference_server --tag "${{ github.sha }}"
+#      - name: Install HamRavesh CLI
+#        run: |
+#          sudo apt install -y --no-install-recommends nodejs npm
+#          npm i g hamctl
+#
+#      - name: Login to HamRavesh
+#        run: echo -ne '\n' | hamctl login -e m.sina.pakseresht@gmail.com -p "${{ secrets.HAMRAVESH_PASSWORD }}"
+#
+#      - name: Deploy to HamRavesh
+#        run: hamctl apps set-image inference-server --image quay.io/sinapakseresht/video_search_inference_server --tag "${{ github.sha }}"
