@@ -32,7 +32,7 @@ def get_best_model_from_mlflow():
         max_results=5,
         order_by=["metrics.acc_at_10 DESC"]
     )
-    return runs[0].data.tags['text_model']
+    return runs[0].data.tags['vision_model']
 
 
 if __name__ == "__main__":
