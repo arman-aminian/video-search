@@ -44,7 +44,9 @@ if __name__ == "__main__":
     print(f"processing {video_name} every {capture_every_x_seconds} seconds with in {language} model")
 
     if language == "farsi":
-        image_encoder = CLIPVisionModel.from_pretrained(get_best_model_from_mlflow()).eval()
+        best_model_name = get_best_model_from_mlflow()
+        print(f"best model name: {best_model_name}")
+        image_encoder = CLIPVisionModel.from_pretrained(best_model_name).eval()
     elif language == "english":
         image_encoder, english_preprocess = clip.load("ViT-B/32")
 
