@@ -91,3 +91,9 @@ Usage:
 
 1. Users can access the system through the front-end interface provided in our [Website](https://mlsd-video-search.darkube.app).
 2. Developers can access the system through the client interface provided in `inference_client.ipynb`.
+
+
+License:
+--------
+
+This project is licensed under the terms mentioned in the `LICENSE` file.
