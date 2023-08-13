@@ -77,5 +77,4 @@ Usage:
 *Note: Specific usage instructions will be based on the actual interface and API design. Below is a general overview.*
 
 1. Users can access the system through the front-end interface provided in our [Website](https://mlsd-video-search.darkube.app).
-2. Provide a textual description of the movie sequence.
-3. The system will return the closest matching movie and the timestamp of the related sequence.
+2. Developers can access the system through the client interface provided in `inference_client.ipynb`.
