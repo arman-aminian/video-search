@@ -3,6 +3,10 @@
 
 Video Search is an innovative project that enables users to search for specific movie sequences based on textual descriptions. Utilizing the power of the [CLIP](https://arxiv.org/abs/2103.00020) model by OpenAI, this project encodes movie frames and maps them to textual sequences for efficient search capabilities. Additionally, we have extended the capabilities of the original CLIP model by training it on the Persian language.
 
+## Accessing the Product
+
+Users can explore and use our product through the following link: [https://mlsd-video-search.darkube.app](https://mlsd-video-search.darkube.app).
+
 ## CLIP
 
 [CLIP](https://arxiv.org/abs/2103.00020) (Contrastive Language-Image Pre-Training) is a neural network trained on a variety of (image, text) pairs. It can be instructed in natural language to predict the most relevant text snippet, given an image, without directly optimizing for the task, similarly to the zero-shot capabilities of GPT-2 and 3.
