@@ -54,6 +54,26 @@ We calculated this metric for both models (CLIP & baseline) on two datasets:
 * [flickr30k](https://paperswithcode.com/dataset/flickr30k): some intersections with the training data.
 * [nocaps](https://nocaps.org/): completely zero-shot for models!
 
+
+## Deployment Tools
+
+This project uses a variety of tools for deployment, database management, API implementation, documentation, and monitoring:
+
+1. **Vector Database**: We utilize [Qdrant](https://github.com/qdrant/qdrant) as our vector database to store and manage the encoded movie frames.
+2. **API Implementation**: Our API is implemented using [FastAPI](https://fastapi.tiangolo.com/), providing a robust and efficient way to handle requests. An example endpoint for querying is `/{video_name}/?search_entry={search_entry}`.
+3. **Automated Documentation**: [Swagger](https://swagger.io/) is used for automated documentation, ensuring that all API endpoints are well-documented and easy to understand.
+4. **Python Client**: A dedicated Python client is implemented which aids in rendering images from base64 strings.
+5. **Monitoring**: We use [Prometheus](https://prometheus.io/) Instrumenter for real-time monitoring of our application.
+6. **Dashboard**: For a visual representation of our monitoring data, [Grafana](https://grafana.com/) is used. The key metrics we track include:
+   - Uptime
+   - Response Time
+   - Response Size
+
+<p float="left">
+  <img src="./images/components.png" width="49%" />
+  <img src="./images/hamravesh.png" width="49%" /> 
+</p>
+
 ## Encoding Frames and Storing in Vector DB
 
 *Before proceeding, ensure you've set up the necessary dependencies and databases.*
