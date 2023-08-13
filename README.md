@@ -1,3 +1,8 @@
+<span align="center">
+<a href="https://huggingface.co/arman-aminian/clip-farsi-text-0SQDA"><img src="https://img.shields.io/static/v1?label=%F0%9F%A4%97%20Hugging%20Face&message=Text Models&color=blue"></a>
+<a href="https://huggingface.co/arman-aminian/clip-farsi-vision-0SQDA"><img src="https://img.shields.io/static/v1?label=%F0%9F%A4%97%20Hugging%20Face&message=Vision Models&color=blue"></a>
+<a href="https://colab.research.google.com/drive/1UNzC_lrR0BiPcydvKvC2E6RiqQN6rVxr?usp=sharing"><img src="https://img.shields.io/static/v1?label=Colab&message=Training notebook&logo=Google%20Colab&color=purple"></a>
+</span>
 
 # Video Search
 
@@ -6,6 +11,10 @@ Video Search is an innovative project that enables users to search for specific 
 ## Accessing the Product
 
 Users can explore and use our product through the following link: [https://mlsd-video-search.darkube.app](https://mlsd-video-search.darkube.app).
+<p float="left">
+  <img src="./images/sc01.png" width="49%" />
+  <img src="./images/sc02.png" width="49%" /> 
+</p>
 
 ## CLIP
 
